@@ -408,8 +408,6 @@ tn93 = function(s1, s2, matchMode = "RESOLVE") {
       }
     }
   }
-  console.log(pairwiseCounts)
-  console.log(ambig_count)
 
   for (var c1 = 0; c1 < 4; c1++) {
     for (var c2 = 0; c2 < 4; c2++) {
@@ -446,11 +444,7 @@ tn93 = function(s1, s2, matchMode = "RESOLVE") {
     AG	= 1 - AG / K1 - 0.5 * tv / fR;
     CT	= 1 - CT / K2 - 0.5 * tv / fY;
     tv  = 1 - 0.5 * tv / fY / fR;
-    //if (AG > 0 && CT > 0 && tv > 0){
-      dist = -K1 * Math.log(AG) - K2 * Math.log(CT) - K3 * Math.log(tv);
-    //} else {
-      //dist = 1.0;
-    //}
+    dist = -K1 * Math.log(AG) - K2 * Math.log(CT) - K3 * Math.log(tv);
   }
 
   return(dist);

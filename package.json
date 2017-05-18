@@ -1,0 +1,25 @@
+{
+  "name": "tn93",
+  "version": "0.1.0",
+  "description": "A Javascript implementation of the TN93 genetic distance algorithm",
+  "main": "tn93.js",
+  "directories": {
+    "test": "test",
+    "docs": "docs",
+    "demo": "demo"
+  },
+  "scripts": {
+    "docs": "docco -c custom.css tn93.js && mv docs/tn93.html docs/index.html",
+    "minify": "uglifyjs --compress --mangle -- tn93.js > tn93.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.biotech.cdc.gov:nsp3/tn93.js.git"
+  },
+  "author": "Tony Boyles",
+  "license": "ISC",
+  "devDependencies": {
+    "docco": "^0.7.0",
+    "uglify-js": "^3.0.8"
+  }
+}

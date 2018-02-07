@@ -14,10 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.biotech.cdc.gov:nsp3/tn93.js.git"
+    "url": "https://github.com/AABoyles/tn93.js.git"
   },
   "author": "Tony Boyles",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "devDependencies": {
     "docco": "^0.7.0",
     "uglify-js": "^3.0.8"

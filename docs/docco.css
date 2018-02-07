@@ -68,7 +68,8 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1em;
   font-weight: normal;
   font-family: "roboto-black";
-  margin: 0 0 15px 0;
+  text-transform: uppercase;
+  margin: 30px 0 15px 0;
 }
 
 h1 {

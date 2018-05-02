@@ -38,24 +38,25 @@
   mapChar['y'] = 6;  // y
 
   var resolutions = [
-    [1,0,0,0],
-    [0,1,0,0],
-    [0,0,1,0],
-    [0,0,0,1],
-    [0,0,0,1], // U - 4
-    [1,0,1,0], //RESOLVE_A | RESOLVE_G, // R - 5
-    [0,1,0,1], //RESOLVE_C | RESOLVE_T, // Y - 6
-    [0,1,1,0], //RESOLVE_C | RESOLVE_G, // S - 7
-    [1,0,0,1], //RESOLVE_A | RESOLVE_T, // W - 8
-    [0,0,1,1], //RESOLVE_G | RESOLVE_T, // K - 9
-    [1,1,0,0], //RESOLVE_A | RESOLVE_C, // M - 10
-    [0,1,1,1], // RESOLVE_C | RESOLVE_G | RESOLVE_T, // B - 11
-    [1,0,1,1], //RESOLVE_A | RESOLVE_G | RESOLVE_T, // D - 12
-    [1,1,0,1], //RESOLVE_A | RESOLVE_C | RESOLVE_T, // H - 13
-    [1,1,1,0], // RESOLVE_A | RESOLVE_C | RESOLVE_G, // V - 14
-    [1,1,1,1], // RESOLVE_A | RESOLVE_C | RESOLVE_G | RESOLVE_T , // N - 15
-    [1,1,1,1], //RESOLVE_A | RESOLVE_C | RESOLVE_G | RESOLVE_T , // ? - 16
-    [0,0,0,0] // GAP
+  /* A,C,G,T */
+    [1,0,0,0], // A -> A (0)
+    [0,1,0,0], // C -> C (1)
+    [0,0,1,0], // G -> G (2)
+    [0,0,0,1], // T -> T (3)
+    [0,0,0,1], // T -> U (4)
+    [1,0,1,0], // A | G -> R (5) (Either Purine)
+    [0,1,0,1], // C | T -> Y (6) (Either Pyrimidine)
+    [0,1,1,0], // C | G -> S (7)
+    [1,0,0,1], // A | T -> W (8)
+    [0,0,1,1], // G | T -> K (9)
+    [1,1,0,0], // A | C -> M (10)
+    [0,1,1,1], // C | G | T -> B (11)
+    [1,0,1,1], // A | G | T -> D (12)
+    [1,1,0,1], // A | C | T -> H (13)
+    [1,1,1,0], // A | C | G -> V (14)
+    [1,1,1,1], // A | C | G | T -> N (15)
+    [1,1,1,1], // A | C | G | T -> ? (16)
+    [0,0,0,0]  // GAP
   ];
 
   var resolutionsCount = [
@@ -84,7 +85,11 @@
     var ambig_count = 0;
     var dist = 0;
     var pairwiseCounts = [
-      [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]
+            /* A, C, G, T */
+      /* A */ [0, 0, 0, 0],
+      /* C */ [0, 0, 0, 0],
+      /* G */ [0, 0, 0, 0],
+      /* T */ [0, 0, 0, 0]
     ];
 
     for (var i = 0; i < 4; i++){

@@ -1,7 +1,5 @@
-;
-"use strict";
-
-(function(){
+;(function(){
+  "use strict";
 
   // Valid matchModes include "RESOLVE", "AVERAGE", "SKIP", "GAPMM"
   function tn93(s1, s2, matchMode){

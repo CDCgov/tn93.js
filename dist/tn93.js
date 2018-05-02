@@ -236,7 +236,7 @@
     }
     exports.tn93 = tn93;
   } else {
-    window.tn93 = tn93;
+    self.tn93 = tn93;
   }
 
 })();

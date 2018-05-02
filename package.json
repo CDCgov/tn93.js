@@ -9,9 +9,9 @@
     "demo": "demo"
   },
   "scripts": {
-    "docs": "docco dist/tn93.js && mv docs/tn93.html docs/index.html",
-    "minify": "uglifyjs --compress --mangle -- dist/tn93.js > dist/tn93.min.js",
-    "demo": "http-server"
+    "docs": "node_modules/docco/bin/docco dist/tn93.js && mv docs/tn93.html docs/index.html",
+    "minify": "node_modules/uglify-js/bin/uglifyjs --compress --mangle -- dist/tn93.js > dist/tn93.min.js",
+    "start": "node_modules/http-server/bin/http-server ."
   },
   "repository": {
     "type": "git",

@@ -1,41 +1,41 @@
 ;(function(){
   "use strict";
 
-  var mapChar = Array(256).fill(16);
+  var mapChar = {};
   // For an Explanation of these codes, see [this Wikipedia Article on Nucleic Acid Notation](https://en.wikipedia.org/wiki/Nucleic_acid_notation)
-  mapChar[45]  = 17; // GAP
-  mapChar[65]  = 0;  // A
-  mapChar[66]  = 11; // B
-  mapChar[67]  = 1;  // C
-  mapChar[68]  = 12; // D
-  mapChar[71]  = 2;  // G
-  mapChar[72]  = 13; // H
-  mapChar[75]  = 9;  // K
-  mapChar[77]  = 10; // M
-  mapChar[78]  = 15; // N
-  mapChar[82]  = 5;  // R
-  mapChar[83]  = 7;  // S
-  mapChar[84]  = 3;  // T
-  mapChar[85]  = 4;  // U
-  mapChar[86]  = 14; // V
-  mapChar[87]  = 8;  // W
-  mapChar[89]  = 6;  // Y
-  mapChar[97]  = 0;  // a
-  mapChar[98]  = 11; // b
-  mapChar[99]  = 1;  // c
-  mapChar[100] = 12; // d
-  mapChar[103] = 2;  // g
-  mapChar[104] = 13; // h
-  mapChar[107] = 9;  // k
-  mapChar[109] = 10; // m
-  mapChar[110] = 15; // n
-  mapChar[114] = 5;  // r
-  mapChar[115] = 7;  // s
-  mapChar[116] = 3;  // t
-  mapChar[117] = 4;  // u
-  mapChar[118] = 14; // v
-  mapChar[119] = 8;  // w
-  mapChar[121] = 6;  // y
+  mapChar['-']  = 17; // GAP
+  mapChar['A']  = 0;  // A
+  mapChar['B']  = 11; // B
+  mapChar['C']  = 1;  // C
+  mapChar['D']  = 12; // D
+  mapChar['G']  = 2;  // G
+  mapChar['H']  = 13; // H
+  mapChar['K']  = 9;  // K
+  mapChar['M']  = 10; // M
+  mapChar['N']  = 15; // N
+  mapChar['R']  = 5;  // R
+  mapChar['S']  = 7;  // S
+  mapChar['T']  = 3;  // T
+  mapChar['U']  = 4;  // U
+  mapChar['V']  = 14; // V
+  mapChar['W']  = 8;  // W
+  mapChar['Y']  = 6;  // Y
+  mapChar['a']  = 0;  // a
+  mapChar['b']  = 11; // b
+  mapChar['c']  = 1;  // c
+  mapChar['d'] = 12; // d
+  mapChar['g'] = 2;  // g
+  mapChar['h'] = 13; // h
+  mapChar['k'] = 9;  // k
+  mapChar['m'] = 10; // m
+  mapChar['n'] = 15; // n
+  mapChar['r'] = 5;  // r
+  mapChar['s'] = 7;  // s
+  mapChar['t'] = 3;  // t
+  mapChar['u'] = 4;  // u
+  mapChar['v'] = 14; // v
+  mapChar['w'] = 8;  // w
+  mapChar['y'] = 6;  // y
 
   var resolutions = [
     [1,0,0,0],
@@ -89,8 +89,8 @@
 
     for (var i = 0; i < 4; i++){
       for (var p = 0; p < L; p++){
-        var c1 = mapChar[s1.charCodeAt(p)];
-        var c2 = mapChar[s2.charCodeAt(p)];
+        var c1 = mapChar[s1[p] || 16];
+        var c2 = mapChar[s2[p] || 16];
 
         if (c1 < 4 && c2 < 4){
           pairwiseCounts [c1][c2] += 1;

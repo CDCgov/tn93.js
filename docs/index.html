@@ -30,10 +30,10 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>;
-<span class="hljs-meta">"use strict"</span>;
+            <div class="content"><div class='highlight'><pre>;(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+<span class="hljs-meta">  "use strict"</span>;
 
-(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
+  <span class="hljs-keyword">var</span> mapChar = {};</pre></div></div>
             
         </li>
         
@@ -44,14 +44,83 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Valid matchModes include “RESOLVE”, “AVERAGE”, “SKIP”, “GAPMM”</p>
+              <p>For an Explanation of these codes, see <a href="https://en.wikipedia.org/wiki/Nucleic_acid_notation">this Wikipedia Article on Nucleic Acid Notation</a></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tn93</span>(<span class="hljs-params">s1, s2, matchMode</span>)</span>{
-    <span class="hljs-keyword">if</span>(!matchMode) matchMode = <span class="hljs-string">"RESOLVE"</span>;
-    <span class="hljs-keyword">var</span> L = <span class="hljs-built_in">Math</span>.min(s1.length, s2.length);
-    <span class="hljs-keyword">var</span> mapChar = <span class="hljs-built_in">Array</span>(<span class="hljs-number">256</span>).fill(<span class="hljs-number">16</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  mapChar[<span class="hljs-string">'-'</span>]  = <span class="hljs-number">17</span>; <span class="hljs-comment">// GAP</span>
+  mapChar[<span class="hljs-string">'A'</span>]  = <span class="hljs-number">0</span>;  <span class="hljs-comment">// A</span>
+  mapChar[<span class="hljs-string">'B'</span>]  = <span class="hljs-number">11</span>; <span class="hljs-comment">// B</span>
+  mapChar[<span class="hljs-string">'C'</span>]  = <span class="hljs-number">1</span>;  <span class="hljs-comment">// C</span>
+  mapChar[<span class="hljs-string">'D'</span>]  = <span class="hljs-number">12</span>; <span class="hljs-comment">// D</span>
+  mapChar[<span class="hljs-string">'G'</span>]  = <span class="hljs-number">2</span>;  <span class="hljs-comment">// G</span>
+  mapChar[<span class="hljs-string">'H'</span>]  = <span class="hljs-number">13</span>; <span class="hljs-comment">// H</span>
+  mapChar[<span class="hljs-string">'K'</span>]  = <span class="hljs-number">9</span>;  <span class="hljs-comment">// K</span>
+  mapChar[<span class="hljs-string">'M'</span>]  = <span class="hljs-number">10</span>; <span class="hljs-comment">// M</span>
+  mapChar[<span class="hljs-string">'N'</span>]  = <span class="hljs-number">15</span>; <span class="hljs-comment">// N</span>
+  mapChar[<span class="hljs-string">'R'</span>]  = <span class="hljs-number">5</span>;  <span class="hljs-comment">// R</span>
+  mapChar[<span class="hljs-string">'S'</span>]  = <span class="hljs-number">7</span>;  <span class="hljs-comment">// S</span>
+  mapChar[<span class="hljs-string">'T'</span>]  = <span class="hljs-number">3</span>;  <span class="hljs-comment">// T</span>
+  mapChar[<span class="hljs-string">'U'</span>]  = <span class="hljs-number">4</span>;  <span class="hljs-comment">// U</span>
+  mapChar[<span class="hljs-string">'V'</span>]  = <span class="hljs-number">14</span>; <span class="hljs-comment">// V</span>
+  mapChar[<span class="hljs-string">'W'</span>]  = <span class="hljs-number">8</span>;  <span class="hljs-comment">// W</span>
+  mapChar[<span class="hljs-string">'Y'</span>]  = <span class="hljs-number">6</span>;  <span class="hljs-comment">// Y</span>
+  mapChar[<span class="hljs-string">'a'</span>]  = <span class="hljs-number">0</span>;  <span class="hljs-comment">// a</span>
+  mapChar[<span class="hljs-string">'b'</span>]  = <span class="hljs-number">11</span>; <span class="hljs-comment">// b</span>
+  mapChar[<span class="hljs-string">'c'</span>]  = <span class="hljs-number">1</span>;  <span class="hljs-comment">// c</span>
+  mapChar[<span class="hljs-string">'d'</span>] = <span class="hljs-number">12</span>; <span class="hljs-comment">// d</span>
+  mapChar[<span class="hljs-string">'g'</span>] = <span class="hljs-number">2</span>;  <span class="hljs-comment">// g</span>
+  mapChar[<span class="hljs-string">'h'</span>] = <span class="hljs-number">13</span>; <span class="hljs-comment">// h</span>
+  mapChar[<span class="hljs-string">'k'</span>] = <span class="hljs-number">9</span>;  <span class="hljs-comment">// k</span>
+  mapChar[<span class="hljs-string">'m'</span>] = <span class="hljs-number">10</span>; <span class="hljs-comment">// m</span>
+  mapChar[<span class="hljs-string">'n'</span>] = <span class="hljs-number">15</span>; <span class="hljs-comment">// n</span>
+  mapChar[<span class="hljs-string">'r'</span>] = <span class="hljs-number">5</span>;  <span class="hljs-comment">// r</span>
+  mapChar[<span class="hljs-string">'s'</span>] = <span class="hljs-number">7</span>;  <span class="hljs-comment">// s</span>
+  mapChar[<span class="hljs-string">'t'</span>] = <span class="hljs-number">3</span>;  <span class="hljs-comment">// t</span>
+  mapChar[<span class="hljs-string">'u'</span>] = <span class="hljs-number">4</span>;  <span class="hljs-comment">// u</span>
+  mapChar[<span class="hljs-string">'v'</span>] = <span class="hljs-number">14</span>; <span class="hljs-comment">// v</span>
+  mapChar[<span class="hljs-string">'w'</span>] = <span class="hljs-number">8</span>;  <span class="hljs-comment">// w</span>
+  mapChar[<span class="hljs-string">'y'</span>] = <span class="hljs-number">6</span>;  <span class="hljs-comment">// y</span>
+
+  <span class="hljs-keyword">var</span> resolutions = [
+  <span class="hljs-comment">/* A,C,G,T */</span>
+    [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>], <span class="hljs-comment">// A -&gt; A (0)</span>
+    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>], <span class="hljs-comment">// C -&gt; C (1)</span>
+    [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], <span class="hljs-comment">// G -&gt; G (2)</span>
+    [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// T -&gt; T (3)</span>
+    [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// T -&gt; U (4)</span>
+    [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], <span class="hljs-comment">// A | G -&gt; R (5) (Either Purine)</span>
+    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// C | T -&gt; Y (6) (Either Pyrimidine)</span>
+    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], <span class="hljs-comment">// C | G -&gt; S (7)</span>
+    [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// A | T -&gt; W (8)</span>
+    [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// G | T -&gt; K (9)</span>
+    [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>], <span class="hljs-comment">// A | C -&gt; M (10)</span>
+    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// C | G | T -&gt; B (11)</span>
+    [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// A | G | T -&gt; D (12)</span>
+    [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// A | C | T -&gt; H (13)</span>
+    [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], <span class="hljs-comment">// A | C | G -&gt; V (14)</span>
+    [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// A | C | G | T -&gt; N (15)</span>
+    [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// A | C | G | T -&gt; ? (16)</span>
+    [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]  <span class="hljs-comment">// GAP</span>
+  ];
+
+  <span class="hljs-keyword">var</span> resolutionsCount = [
+    <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>,
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// R</span>
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// Y</span>
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// S</span>
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// S</span>
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// W</span>
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// K</span>
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// M</span>
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">3.0</span>, <span class="hljs-comment">// B</span>
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">3.0</span>, <span class="hljs-comment">// D</span>
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">3.0</span>, <span class="hljs-comment">// H</span>
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">3.0</span>, <span class="hljs-comment">// V</span>
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">4.0</span>, <span class="hljs-comment">// N</span>
+    <span class="hljs-number">1.0</span>/<span class="hljs-number">4.0</span>, <span class="hljs-comment">// ?</span>
+    <span class="hljs-number">0.0</span>
+  ];</pre></div></div>
             
         </li>
         
@@ -62,93 +131,27 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>For an Explanation of these codes, see <a href="https://en.wikipedia.org/wiki/Nucleic_acid_notation">this Wikipedia Article on Nucleic Acid Notation</a></p>
+              <p>Valid matchModes include “RESOLVE”, “AVERAGE”, “SKIP”, “GAPMM”</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    mapChar[<span class="hljs-number">45</span>]  = <span class="hljs-number">17</span>; <span class="hljs-comment">// GAP</span>
-    mapChar[<span class="hljs-number">65</span>]  = <span class="hljs-number">0</span>;  <span class="hljs-comment">// A</span>
-    mapChar[<span class="hljs-number">66</span>]  = <span class="hljs-number">11</span>; <span class="hljs-comment">// B</span>
-    mapChar[<span class="hljs-number">67</span>]  = <span class="hljs-number">1</span>;  <span class="hljs-comment">// C</span>
-    mapChar[<span class="hljs-number">68</span>]  = <span class="hljs-number">12</span>; <span class="hljs-comment">// D</span>
-    mapChar[<span class="hljs-number">71</span>]  = <span class="hljs-number">2</span>;  <span class="hljs-comment">// G</span>
-    mapChar[<span class="hljs-number">72</span>]  = <span class="hljs-number">13</span>; <span class="hljs-comment">// H</span>
-    mapChar[<span class="hljs-number">75</span>]  = <span class="hljs-number">9</span>;  <span class="hljs-comment">// K</span>
-    mapChar[<span class="hljs-number">77</span>]  = <span class="hljs-number">10</span>; <span class="hljs-comment">// M</span>
-    mapChar[<span class="hljs-number">78</span>]  = <span class="hljs-number">15</span>; <span class="hljs-comment">// N</span>
-    mapChar[<span class="hljs-number">82</span>]  = <span class="hljs-number">5</span>;  <span class="hljs-comment">// R</span>
-    mapChar[<span class="hljs-number">83</span>]  = <span class="hljs-number">7</span>;  <span class="hljs-comment">// S</span>
-    mapChar[<span class="hljs-number">84</span>]  = <span class="hljs-number">3</span>;  <span class="hljs-comment">// T</span>
-    mapChar[<span class="hljs-number">85</span>]  = <span class="hljs-number">4</span>;  <span class="hljs-comment">// U</span>
-    mapChar[<span class="hljs-number">86</span>]  = <span class="hljs-number">14</span>; <span class="hljs-comment">// V</span>
-    mapChar[<span class="hljs-number">87</span>]  = <span class="hljs-number">8</span>;  <span class="hljs-comment">// W</span>
-    mapChar[<span class="hljs-number">89</span>]  = <span class="hljs-number">6</span>;  <span class="hljs-comment">// Y</span>
-    mapChar[<span class="hljs-number">97</span>]  = <span class="hljs-number">0</span>;  <span class="hljs-comment">// a</span>
-    mapChar[<span class="hljs-number">98</span>]  = <span class="hljs-number">11</span>; <span class="hljs-comment">// b</span>
-    mapChar[<span class="hljs-number">99</span>]  = <span class="hljs-number">1</span>;  <span class="hljs-comment">// c</span>
-    mapChar[<span class="hljs-number">100</span>] = <span class="hljs-number">12</span>; <span class="hljs-comment">// d</span>
-    mapChar[<span class="hljs-number">103</span>] = <span class="hljs-number">2</span>;  <span class="hljs-comment">// g</span>
-    mapChar[<span class="hljs-number">104</span>] = <span class="hljs-number">13</span>; <span class="hljs-comment">// h</span>
-    mapChar[<span class="hljs-number">107</span>] = <span class="hljs-number">9</span>;  <span class="hljs-comment">// k</span>
-    mapChar[<span class="hljs-number">109</span>] = <span class="hljs-number">10</span>; <span class="hljs-comment">// m</span>
-    mapChar[<span class="hljs-number">110</span>] = <span class="hljs-number">15</span>; <span class="hljs-comment">// n</span>
-    mapChar[<span class="hljs-number">114</span>] = <span class="hljs-number">5</span>;  <span class="hljs-comment">// r</span>
-    mapChar[<span class="hljs-number">115</span>] = <span class="hljs-number">7</span>;  <span class="hljs-comment">// s</span>
-    mapChar[<span class="hljs-number">116</span>] = <span class="hljs-number">3</span>;  <span class="hljs-comment">// t</span>
-    mapChar[<span class="hljs-number">117</span>] = <span class="hljs-number">4</span>;  <span class="hljs-comment">// u</span>
-    mapChar[<span class="hljs-number">118</span>] = <span class="hljs-number">14</span>; <span class="hljs-comment">// v</span>
-    mapChar[<span class="hljs-number">119</span>] = <span class="hljs-number">8</span>;  <span class="hljs-comment">// w</span>
-    mapChar[<span class="hljs-number">121</span>] = <span class="hljs-number">6</span>;  <span class="hljs-comment">// y</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tn93</span>(<span class="hljs-params">s1, s2, matchMode</span>)</span>{
+    <span class="hljs-keyword">if</span>(!matchMode) matchMode = <span class="hljs-string">"RESOLVE"</span>;
+    <span class="hljs-keyword">var</span> L = <span class="hljs-built_in">Math</span>.min(s1.length, s2.length);
 
-    <span class="hljs-keyword">var</span> resolutions = [
-      [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>],
-      [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>],
-      [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>],
-      [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>],
-      [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// U - 4</span>
-      [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], <span class="hljs-comment">//RESOLVE_A | RESOLVE_G, // R - 5</span>
-      [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">//RESOLVE_C | RESOLVE_T, // Y - 6</span>
-      [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], <span class="hljs-comment">//RESOLVE_C | RESOLVE_G, // S - 7</span>
-      [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">//RESOLVE_A | RESOLVE_T, // W - 8</span>
-      [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">//RESOLVE_G | RESOLVE_T, // K - 9</span>
-      [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>], <span class="hljs-comment">//RESOLVE_A | RESOLVE_C, // M - 10</span>
-      [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// RESOLVE_C | RESOLVE_G | RESOLVE_T, // B - 11</span>
-      [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">//RESOLVE_A | RESOLVE_G | RESOLVE_T, // D - 12</span>
-      [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">//RESOLVE_A | RESOLVE_C | RESOLVE_T, // H - 13</span>
-      [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], <span class="hljs-comment">// RESOLVE_A | RESOLVE_C | RESOLVE_G, // V - 14</span>
-      [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">// RESOLVE_A | RESOLVE_C | RESOLVE_G | RESOLVE_T , // N - 15</span>
-      [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], <span class="hljs-comment">//RESOLVE_A | RESOLVE_C | RESOLVE_G | RESOLVE_T , // ? - 16</span>
-      [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] <span class="hljs-comment">// GAP</span>
-    ];
-
-    <span class="hljs-keyword">var</span> resolutionsCount = [
-      <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>,
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// R</span>
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// Y</span>
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// S</span>
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// S</span>
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// W</span>
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// K</span>
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">2.0</span>, <span class="hljs-comment">// M</span>
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">3.0</span>, <span class="hljs-comment">// B</span>
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">3.0</span>, <span class="hljs-comment">// D</span>
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">3.0</span>, <span class="hljs-comment">// H</span>
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">3.0</span>, <span class="hljs-comment">// V</span>
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">4.0</span>, <span class="hljs-comment">// N</span>
-      <span class="hljs-number">1.0</span>/<span class="hljs-number">4.0</span>, <span class="hljs-comment">// ?</span>
-      <span class="hljs-number">0.0</span>
-    ];
-
-    <span class="hljs-keyword">var</span> ambig_count = <span class="hljs-number">0</span>;
     <span class="hljs-keyword">var</span> dist = <span class="hljs-number">0</span>;
     <span class="hljs-keyword">var</span> pairwiseCounts = [
-      [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
+            <span class="hljs-comment">/* A, C, G, T */</span>
+      <span class="hljs-comment">/* A */</span> [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],
+      <span class="hljs-comment">/* C */</span> [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],
+      <span class="hljs-comment">/* G */</span> [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],
+      <span class="hljs-comment">/* T */</span> [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
     ];
 
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++){
       <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> p = <span class="hljs-number">0</span>; p &lt; L; p++){
-        <span class="hljs-keyword">var</span> c1 = mapChar[s1.charCodeAt(p)];
-        <span class="hljs-keyword">var</span> c2 = mapChar[s2.charCodeAt(p)];
+        <span class="hljs-keyword">var</span> c1 = mapChar[s1[p] || <span class="hljs-number">16</span>];
+        <span class="hljs-keyword">var</span> c2 = mapChar[s2[p] || <span class="hljs-number">16</span>];
 
         <span class="hljs-keyword">if</span> (c1 &lt; <span class="hljs-number">4</span> &amp;&amp; c2 &lt; <span class="hljs-number">4</span>){
           pairwiseCounts [c1][c2] += <span class="hljs-number">1</span>;
@@ -174,7 +177,6 @@
               <span class="hljs-keyword">if</span> (resolutionsCount[c2] &gt; <span class="hljs-number">0</span>){
                 <span class="hljs-keyword">if</span> (matchMode == <span class="hljs-string">"RESOLVE"</span>){
                   <span class="hljs-keyword">if</span> (resolutions[c2][c1]){
-                    ambig_count++;
                     pairwiseCounts[c1][c1] += <span class="hljs-number">1</span>;
                     <span class="hljs-keyword">continue</span>;
                   }
@@ -192,7 +194,6 @@
                 <span class="hljs-keyword">if</span> (resolutionsCount[c1] &gt; <span class="hljs-number">0</span>){
                   <span class="hljs-keyword">if</span> (matchMode == <span class="hljs-string">"RESOLVE"</span>){
                     <span class="hljs-keyword">if</span> (resolutions[c1][c2]){
-                      ambig_count++;
                       pairwiseCounts[c2][c2] += <span class="hljs-number">1</span>;
                       <span class="hljs-keyword">continue</span>;
                     }
@@ -221,7 +222,6 @@
             <div class="content"><div class='highlight'><pre>                norm = resolutionsCount[c1] * resolutionsCount[c2];
                 <span class="hljs-keyword">if</span> (norm &gt; <span class="hljs-number">0.0</span>){
                   <span class="hljs-keyword">if</span> (matchMode == <span class="hljs-string">"RESOLVE"</span>){
-                    ambig_count++;
                     matched_count = <span class="hljs-number">0</span>;
                     positive_match = [<span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>];
                     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">4</span>; j++){
@@ -306,7 +306,7 @@
     }
     exports.tn93 = tn93;
   } <span class="hljs-keyword">else</span> {
-    <span class="hljs-built_in">window</span>.tn93 = tn93;
+    self.tn93 = tn93;
   }
 
 })();</pre></div></div>

@@ -82,7 +82,6 @@
     if(!matchMode) matchMode = "RESOLVE";
     var L = Math.min(s1.length, s2.length);
 
-    var ambig_count = 0;
     var dist = 0;
     var pairwiseCounts = [
             /* A, C, G, T */
@@ -121,7 +120,6 @@
               if (resolutionsCount[c2] > 0){
                 if (matchMode == "RESOLVE"){
                   if (resolutions[c2][c1]){
-                    ambig_count++;
                     pairwiseCounts[c1][c1] += 1;
                     continue;
                   }
@@ -139,7 +137,6 @@
                 if (resolutionsCount[c1] > 0){
                   if (matchMode == "RESOLVE"){
                     if (resolutions[c1][c2]){
-                      ambig_count++;
                       pairwiseCounts[c2][c2] += 1;
                       continue;
                     }
@@ -155,7 +152,6 @@
                 norm = resolutionsCount[c1] * resolutionsCount[c2];
                 if (norm > 0.0){
                   if (matchMode == "RESOLVE"){
-                    ambig_count++;
                     matched_count = 0;
                     positive_match = [false, false, false, false];
                     for (var j = 0; j < 4; j++){

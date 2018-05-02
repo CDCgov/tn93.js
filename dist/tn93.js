@@ -1,84 +1,85 @@
 ;(function(){
   "use strict";
 
+  var mapChar = Array(256).fill(16);
+  // For an Explanation of these codes, see [this Wikipedia Article on Nucleic Acid Notation](https://en.wikipedia.org/wiki/Nucleic_acid_notation)
+  mapChar[45]  = 17; // GAP
+  mapChar[65]  = 0;  // A
+  mapChar[66]  = 11; // B
+  mapChar[67]  = 1;  // C
+  mapChar[68]  = 12; // D
+  mapChar[71]  = 2;  // G
+  mapChar[72]  = 13; // H
+  mapChar[75]  = 9;  // K
+  mapChar[77]  = 10; // M
+  mapChar[78]  = 15; // N
+  mapChar[82]  = 5;  // R
+  mapChar[83]  = 7;  // S
+  mapChar[84]  = 3;  // T
+  mapChar[85]  = 4;  // U
+  mapChar[86]  = 14; // V
+  mapChar[87]  = 8;  // W
+  mapChar[89]  = 6;  // Y
+  mapChar[97]  = 0;  // a
+  mapChar[98]  = 11; // b
+  mapChar[99]  = 1;  // c
+  mapChar[100] = 12; // d
+  mapChar[103] = 2;  // g
+  mapChar[104] = 13; // h
+  mapChar[107] = 9;  // k
+  mapChar[109] = 10; // m
+  mapChar[110] = 15; // n
+  mapChar[114] = 5;  // r
+  mapChar[115] = 7;  // s
+  mapChar[116] = 3;  // t
+  mapChar[117] = 4;  // u
+  mapChar[118] = 14; // v
+  mapChar[119] = 8;  // w
+  mapChar[121] = 6;  // y
+
+  var resolutions = [
+    [1,0,0,0],
+    [0,1,0,0],
+    [0,0,1,0],
+    [0,0,0,1],
+    [0,0,0,1], // U - 4
+    [1,0,1,0], //RESOLVE_A | RESOLVE_G, // R - 5
+    [0,1,0,1], //RESOLVE_C | RESOLVE_T, // Y - 6
+    [0,1,1,0], //RESOLVE_C | RESOLVE_G, // S - 7
+    [1,0,0,1], //RESOLVE_A | RESOLVE_T, // W - 8
+    [0,0,1,1], //RESOLVE_G | RESOLVE_T, // K - 9
+    [1,1,0,0], //RESOLVE_A | RESOLVE_C, // M - 10
+    [0,1,1,1], // RESOLVE_C | RESOLVE_G | RESOLVE_T, // B - 11
+    [1,0,1,1], //RESOLVE_A | RESOLVE_G | RESOLVE_T, // D - 12
+    [1,1,0,1], //RESOLVE_A | RESOLVE_C | RESOLVE_T, // H - 13
+    [1,1,1,0], // RESOLVE_A | RESOLVE_C | RESOLVE_G, // V - 14
+    [1,1,1,1], // RESOLVE_A | RESOLVE_C | RESOLVE_G | RESOLVE_T , // N - 15
+    [1,1,1,1], //RESOLVE_A | RESOLVE_C | RESOLVE_G | RESOLVE_T , // ? - 16
+    [0,0,0,0] // GAP
+  ];
+
+  var resolutionsCount = [
+    1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0/2.0, // R
+    1.0/2.0, // Y
+    1.0/2.0, // S
+    1.0/2.0, // S
+    1.0/2.0, // W
+    1.0/2.0, // K
+    1.0/2.0, // M
+    1.0/3.0, // B
+    1.0/3.0, // D
+    1.0/3.0, // H
+    1.0/3.0, // V
+    1.0/4.0, // N
+    1.0/4.0, // ?
+    0.0
+  ];
+
   // Valid matchModes include "RESOLVE", "AVERAGE", "SKIP", "GAPMM"
   function tn93(s1, s2, matchMode){
     if(!matchMode) matchMode = "RESOLVE";
     var L = Math.min(s1.length, s2.length);
-    var mapChar = Array(256).fill(16);
-    // For an Explanation of these codes, see [this Wikipedia Article on Nucleic Acid Notation](https://en.wikipedia.org/wiki/Nucleic_acid_notation)
-    mapChar[45]  = 17; // GAP
-    mapChar[65]  = 0;  // A
-    mapChar[66]  = 11; // B
-    mapChar[67]  = 1;  // C
-    mapChar[68]  = 12; // D
-    mapChar[71]  = 2;  // G
-    mapChar[72]  = 13; // H
-    mapChar[75]  = 9;  // K
-    mapChar[77]  = 10; // M
-    mapChar[78]  = 15; // N
-    mapChar[82]  = 5;  // R
-    mapChar[83]  = 7;  // S
-    mapChar[84]  = 3;  // T
-    mapChar[85]  = 4;  // U
-    mapChar[86]  = 14; // V
-    mapChar[87]  = 8;  // W
-    mapChar[89]  = 6;  // Y
-    mapChar[97]  = 0;  // a
-    mapChar[98]  = 11; // b
-    mapChar[99]  = 1;  // c
-    mapChar[100] = 12; // d
-    mapChar[103] = 2;  // g
-    mapChar[104] = 13; // h
-    mapChar[107] = 9;  // k
-    mapChar[109] = 10; // m
-    mapChar[110] = 15; // n
-    mapChar[114] = 5;  // r
-    mapChar[115] = 7;  // s
-    mapChar[116] = 3;  // t
-    mapChar[117] = 4;  // u
-    mapChar[118] = 14; // v
-    mapChar[119] = 8;  // w
-    mapChar[121] = 6;  // y
-
-    var resolutions = [
-      [1,0,0,0],
-      [0,1,0,0],
-      [0,0,1,0],
-      [0,0,0,1],
-      [0,0,0,1], // U - 4
-      [1,0,1,0], //RESOLVE_A | RESOLVE_G, // R - 5
-      [0,1,0,1], //RESOLVE_C | RESOLVE_T, // Y - 6
-      [0,1,1,0], //RESOLVE_C | RESOLVE_G, // S - 7
-      [1,0,0,1], //RESOLVE_A | RESOLVE_T, // W - 8
-      [0,0,1,1], //RESOLVE_G | RESOLVE_T, // K - 9
-      [1,1,0,0], //RESOLVE_A | RESOLVE_C, // M - 10
-      [0,1,1,1], // RESOLVE_C | RESOLVE_G | RESOLVE_T, // B - 11
-      [1,0,1,1], //RESOLVE_A | RESOLVE_G | RESOLVE_T, // D - 12
-      [1,1,0,1], //RESOLVE_A | RESOLVE_C | RESOLVE_T, // H - 13
-      [1,1,1,0], // RESOLVE_A | RESOLVE_C | RESOLVE_G, // V - 14
-      [1,1,1,1], // RESOLVE_A | RESOLVE_C | RESOLVE_G | RESOLVE_T , // N - 15
-      [1,1,1,1], //RESOLVE_A | RESOLVE_C | RESOLVE_G | RESOLVE_T , // ? - 16
-      [0,0,0,0] // GAP
-    ];
-
-    var resolutionsCount = [
-      1.0, 1.0, 1.0, 1.0, 1.0,
-      1.0/2.0, // R
-      1.0/2.0, // Y
-      1.0/2.0, // S
-      1.0/2.0, // S
-      1.0/2.0, // W
-      1.0/2.0, // K
-      1.0/2.0, // M
-      1.0/3.0, // B
-      1.0/3.0, // D
-      1.0/3.0, // H
-      1.0/3.0, // V
-      1.0/4.0, // N
-      1.0/4.0, // ?
-      0.0
-    ];
 
     var ambig_count = 0;
     var dist = 0;

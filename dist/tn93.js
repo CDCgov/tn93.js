@@ -1,5 +1,5 @@
 ;(function(){
-  'use strict';
+  "use strict";
 
   var mapChar = Array(256).fill(16);
   // For an Explanation of these codes, see [this Wikipedia Article on Nucleic Acid Notation](https://en.wikipedia.org/wiki/Nucleic_acid_notation)
@@ -81,9 +81,9 @@
     0.0      // GAP
   ];
 
-  // Valid matchModes include 'RESOLVE', 'AVERAGE', 'SKIP', 'GAPMM'
+  // Valid matchModes include "RESOLVE", "AVERAGE", "SKIP", "GAPMM"
   function tn93(s1, s2, matchMode){
-    if(!matchMode) matchMode = 'AVERAGE';
+    if(!matchMode) matchMode = "AVERAGE";
     var L = Math.min(s1.length, s2.length);
 
     var dist = 0;
@@ -95,17 +95,23 @@
       /* T */ [0, 0, 0, 0]
     ];
 
-    for (var p = 0; p < L; p++){
-      var c1 = mapChar[s1.charCodeAt(p)];
-      var c2 = mapChar[s2.charCodeAt(p)];
+    if(matchMode == 'SKIP'){
+      for (var p = 0; p < L; p++){
+        var c1 = mapChar[s1.charCodeAt(p)];
+        var c2 = mapChar[s2.charCodeAt(p)];
+        if (c1 < 4 && c2 < 4){
+          pairwiseCounts [c1][c2] += 1;
+        }
+      }
+    } else if(matchMode == 'GAPMM'){
+      for (var p = 0; p < L; p++){
+        var c1 = mapChar[s1.charCodeAt(p)];
+        var c2 = mapChar[s2.charCodeAt(p)];
 
-      if (c1 < 4 && c2 < 4){
-        pairwiseCounts [c1][c2] += 1;
-      } else { // not both resolved
-        if (c1 == 17 || c2 == 17){
-          if (matchMode != 'GAPMM'){
-            continue;
-          } else {
+        if (c1 < 4 && c2 < 4){
+          pairwiseCounts [c1][c2] += 1;
+        } else { // not both resolved
+          if (c1 == 17 || c2 == 17){
             if (c1 == 17 && c2 == 17){
               continue;
             } else {
@@ -116,16 +122,56 @@
               }
             }
           }
-        }
 
-        if (c1 < 4){ // c1 resolved and c2 is not
-          if (matchMode != 'SKIP'){
+          if (c1 < 4){ // c1 resolved and c2 is not
             if (resolutionsCount[c2] > 0){
-              if (matchMode == 'RESOLVE'){
-                if (resolutions[c2][c1]){
-                  pairwiseCounts[c1][c1] += 1;
-                  continue;
+              for(var j = 0; j < 4; j++){
+                if (resolutions[c2][j]){
+                  pairwiseCounts[c1][j] += resolutionsCount[c2];
                 }
+              }
+            }
+          } else {
+            if (c2 < 4){ // c2 resolved an c1 is not
+              if (resolutionsCount[c1] > 0){
+                for(var j = 0; j < 4; j++){
+                  if (resolutions[c1][j]){
+                    pairwiseCounts[j][c2] += resolutionsCount[c1];
+                  }
+                }
+              }
+            } else {
+              // ambig and ambig
+              var norm = resolutionsCount[c1] * resolutionsCount[c2];
+              if (norm > 0.0){
+                for (var j = 0; j < 4; j++){
+                  if (resolutions[c1][j]){
+                    for (var k = 0; k < 4; k++){
+                      if (resolutions[c2][k]){
+                        pairwiseCounts[j][k] += norm;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    } else if(matchMode == 'RESOLVE'){
+      for (var p = 0; p < L; p++){
+        var c1 = mapChar[s1.charCodeAt(p)];
+        var c2 = mapChar[s2.charCodeAt(p)];
+
+        if (c1 < 4 && c2 < 4){
+          pairwiseCounts [c1][c2] += 1;
+        } else { // not both resolved
+          if (c1 == 17 || c2 == 17) continue;
+          if (c1 < 4){ // c1 resolved and c2 is not
+            if (resolutionsCount[c2] > 0){
+              if (resolutions[c2][c1]){
+                pairwiseCounts[c1][c1] += 1;
+                continue;
               }
               for(var j = 0; j < 4; j++){
                 if (resolutions[c2][j]){
@@ -133,16 +179,12 @@
                 }
               }
             }
-          }
-        } else {
-          if (matchMode != 'SKIP'){
+          } else {
             if (c2 < 4){ // c2 resolved an c1 is not
               if (resolutionsCount[c1] > 0){
-                if (matchMode == 'RESOLVE'){
-                  if (resolutions[c1][c2]){
-                    pairwiseCounts[c2][c2] += 1;
-                    continue;
-                  }
+                if (resolutions[c1][c2]){
+                  pairwiseCounts[c2][c2] += 1;
+                  continue;
                 }
                 for(var j = 0; j < 4; j++){
                   if (resolutions[c1][j]){
@@ -152,29 +194,71 @@
               }
             } else {
               // ambig and ambig
-              norm = resolutionsCount[c1] * resolutionsCount[c2];
+              var norm = resolutionsCount[c1] * resolutionsCount[c2];
               if (norm > 0.0){
-                if (matchMode == 'RESOLVE'){
-                  matched_count = 0;
-                  positive_match = [false, false, false, false];
-                  for (var j = 0; j < 4; j++){
-                    if (resolutions[c1][j] && resolutions[c2][j]){
-                      matched_count++;
-                      positive_match[j] = true;
-                    }
-                  }
-
-                  if (matched_count > 0){
-                    norm2 = 1/matched_count;
-                    for (var j = 0; j < 4; j++){
-                      if (positive_match[j]){
-                        pairwiseCounts[j][j] += norm2;
-                      }
-                    }
-                    continue;
+                matched_count = 0;
+                positive_match = [false, false, false, false];
+                for (var j = 0; j < 4; j++){
+                  if (resolutions[c1][j] && resolutions[c2][j]){
+                    matched_count++;
+                    positive_match[j] = true;
                   }
                 }
 
+                if (matched_count > 0){
+                  norm2 = 1/matched_count;
+                  for (var j = 0; j < 4; j++){
+                    if (positive_match[j]){
+                      pairwiseCounts[j][j] += norm2;
+                    }
+                  }
+                  continue;
+                }
+
+                for (var j = 0; j < 4; j++){
+                  if (resolutions[c1][j]){
+                    for (var k = 0; k < 4; k++){
+                      if (resolutions[c2][k]){
+                        pairwiseCounts[j][k] += norm;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    } else {
+      for (var p = 0; p < L; p++){
+        var c1 = mapChar[s1.charCodeAt(p)];
+        var c2 = mapChar[s2.charCodeAt(p)];
+
+        if (c1 < 4 && c2 < 4){
+          pairwiseCounts [c1][c2] += 1;
+        } else { // not both resolved
+          if (c1 == 17 || c2 == 17) continue;
+          if (c1 < 4){ // c1 resolved and c2 is not
+            if (resolutionsCount[c2] > 0){
+              for(var j = 0; j < 4; j++){
+                if (resolutions[c2][j]){
+                  pairwiseCounts[c1][j] += resolutionsCount[c2];
+                }
+              }
+            }
+          } else {
+            if (c2 < 4){ // c2 resolved an c1 is not
+              if (resolutionsCount[c1] > 0){
+                for(var j = 0; j < 4; j++){
+                  if (resolutions[c1][j]){
+                    pairwiseCounts[j][c2] += resolutionsCount[c1];
+                  }
+                }
+              }
+            } else {
+              // ambig and ambig
+              var norm = resolutionsCount[c1] * resolutionsCount[c2];
+              if (norm > 0.0){
                 for (var j = 0; j < 4; j++){
                   if (resolutions[c1][j]){
                     for (var k = 0; k < 4; k++){

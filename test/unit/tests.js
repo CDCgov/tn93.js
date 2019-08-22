@@ -12,8 +12,8 @@ QUnit.test( "Default", assert => {
 
 QUnit.test( "Resolve", assert => {
 	assert.expect(3);
-	var a = tn93(s1, s2, "RESOLVE", 100);
-	var b = tn93(s1, s2, "RESOLVE", 100);
+	var a = tn93(s1, s2, "RESOLVE");
+	var b = tn93(s1, s2, "RESOLVE");
 	assert.equal(a, b, "Function is Stable.");
 	assert.notEqual(a, 1, "Function returns non-trivial results");
 	assert.ok(a - 0.045156 < .0000001 && a - 0.045156 > -.0000001, "Function is Correct.");
@@ -21,8 +21,8 @@ QUnit.test( "Resolve", assert => {
 
 QUnit.test( "Average", assert => {
 	assert.expect(3);
-	var a = tn93(s1, s2, "AVERAGE", 100);
-	var b = tn93(s1, s2, "AVERAGE", 100);
+	var a = tn93(s1, s2, "AVERAGE");
+	var b = tn93(s1, s2, "AVERAGE");
 	assert.equal(a, b, "Function is Stable.");
 	assert.notEqual(a, 1, "Function returns non-trivial results");
 	assert.ok(a - 0.045156 < .0000001 && a - 0.045156 > -.0000001, "Function is Correct.");
@@ -30,8 +30,8 @@ QUnit.test( "Average", assert => {
 
 QUnit.test( "Skip", assert => {
 	assert.expect(3);
-	var a = tn93(s1, s2, "SKIP", 100);
-	var b = tn93(s1, s2, "SKIP", 100);
+	var a = tn93(s1, s2, "SKIP");
+	var b = tn93(s1, s2, "SKIP");
 	assert.equal(a, b, "Function is Stable.");
 	assert.notEqual(a, 1, "Function returns non-trivial results");
 	assert.ok(a - 0.045156 < .0000001 && a - 0.045156 > -.0000001, "Function is Correct.");
@@ -39,8 +39,8 @@ QUnit.test( "Skip", assert => {
 
 QUnit.test( "GapMM", assert => {
 	assert.expect(3);
-	var a = tn93(s1, s2, "GAPMM", 100);
-	var b = tn93(s1, s2, "GAPMM", 100);
+	var a = tn93(s1, s2, "GAPMM");
+	var b = tn93(s1, s2, "GAPMM");
 	assert.equal(a, b, "Function is Stable.");
 	assert.notEqual(a, 1, "Function returns non-trivial results");
 	assert.ok(a - 0.045156 < .0000001 && a - 0.045156 > -.0000001, "Function is Correct.");

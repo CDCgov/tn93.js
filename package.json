@@ -10,8 +10,8 @@
   },
   "scripts": {
     "docs": "node_modules/docco/bin/docco dist/tn93.js && mv docs/tn93.html docs/index.html",
-    "minify": "node_modules/uglify-js/bin/uglifyjs --compress --mangle -- dist/tn93.js > dist/tn93.min.js",
     "start": "node_modules/http-server/bin/http-server ."
+    "minify": "terser --compress --mangle -- dist/tn93.js > dist/tn93.min.js",
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,6 @@
   "devDependencies": {
     "docco": "^0.7.0",
     "http-server": "^0.11.1",
-    "uglify-js": "^3.0.8"
+    "terser": "^4.2.0"
   }
 }

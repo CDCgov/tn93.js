@@ -1,6 +1,6 @@
 {
   "name": "tn93",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "A Javascript implementation of the TN93 genetic distance algorithm",
   "main": "dist/tn93.js",
   "directories": {
@@ -9,9 +9,9 @@
     "demo": "demo"
   },
   "scripts": {
-    "docs": "node_modules/docco/bin/docco dist/tn93.js && mv docs/tn93.html docs/index.html",
-    "start": "node_modules/http-server/bin/http-server ."
+    "docs": "docco dist/tn93.js && mv docs/tn93.html docs/index.html",
     "minify": "terser --compress --mangle -- dist/tn93.js > dist/tn93.min.js",
+    "start": "http-server"
   },
   "repository": {
     "type": "git",

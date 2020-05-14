@@ -23,5 +23,9 @@
     "docco": "^0.7.0",
     "http-server": "^0.12.3",
     "terser": "^4.2.0"
+  },
+  "resolutions": {
+    "docco/**/marked": "0.7.0",
+    "http-server/**/minimist": "1.2.5"
   }
 }

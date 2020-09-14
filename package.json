@@ -11,7 +11,7 @@
   "scripts": {
     "docs": "docco dist/tn93.js && mv docs/tn93.html docs/index.html",
     "minify": "terser --compress --mangle -- dist/tn93.js > dist/tn93.min.js",
-    "start": "http-server"
+    "start": "npx http-server"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,6 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "docco": "^0.7.0",
-    "http-server": "^0.12.3",
     "terser": "^4.2.0"
   },
   "resolutions": {

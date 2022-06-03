@@ -117,7 +117,7 @@
               let norm = resolutionsCount[c1] * resolutionsCount[c2];
               if (norm > 0.0){
                 let matched_count = 0;
-                positive_match = [false, false, false, false];
+                let positive_match = [false, false, false, false];
                 for (let j = 0; j < 4; j++){
                   if (resolutions[c1][j] && resolutions[c2][j]){
                     matched_count++;
@@ -126,7 +126,7 @@
                 }
 
                 if (matched_count > 0){
-                  norm2 = 1/matched_count;
+                  let norm2 = 1/matched_count;
                   for (let j = 0; j < 4; j++){
                     if (positive_match[j]){
                       pairwiseCounts[j][j] += norm2;
@@ -444,7 +444,7 @@ const mapChar = Array(256).fill(16);
               let norm = resolutionsCount[c1] * resolutionsCount[c2];
               if (norm > 0.0){
                 let matched_count = 0;
-                positive_match = [false, false, false, false];
+                let positive_match = [false, false, false, false];
                 for (let j = 0; j < 4; j++){
                   if (resolutions[c1][j] && resolutions[c2][j]){
                     matched_count++;
@@ -453,7 +453,7 @@ const mapChar = Array(256).fill(16);
                 }
 
                 if (matched_count > 0){
-                  norm2 = 1/matched_count;
+                  let norm2 = 1/matched_count;
                   for (let j = 0; j < 4; j++){
                     if (positive_match[j]){
                       pairwiseCounts[j][j] += norm2;

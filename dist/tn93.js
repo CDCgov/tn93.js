@@ -15,6 +15,7 @@
       /* T */ [0, 0, 0, 0]
     ];
 
+    const all_pairwise_counts_array = {}
     if(matchMode == 'SKIP'){
       for (let p = 0; p < L; p++){
         let c1 = mapChar[s1.charCodeAt(p)];
@@ -22,6 +23,7 @@
         if (c1 < 4 && c2 < 4){
           pairwiseCounts[c1][c2] += 1;
         }
+        all_pairwise_counts_array[p] = JSON.parse(JSON.stringify(pairwiseCounts));
       }
     } else if(matchMode == 'GAPMM'){
       for (let p = 0; p < L; p++){
@@ -194,7 +196,10 @@
         }
       }
     }
+    // const fs = require('fs');
+    // fs.writeFileSync("tn93_js_pairwise_counts.json", JSON.stringify(all_pairwise_counts_array));
 
+    // console.log(pairwiseCounts);
     let nucFreq = [0, 0, 0, 0];
     for (let c1 = 0; c1 < 4; c1++){
       for (let c2 = 0; c2 < 4; c2++){
@@ -207,7 +212,7 @@
     let AG = (pairwiseCounts[0][2] + pairwiseCounts[2][0]) * totalNonGap;
     let CT = (pairwiseCounts[1][3] + pairwiseCounts[3][1]) * totalNonGap;
     let tv = 1-((pairwiseCounts[0][0] + pairwiseCounts[1][1] + pairwiseCounts[2][2] + pairwiseCounts[3][3]) * totalNonGap + AG + CT);
-
+    // console.log(`AG=${AG} CT=${CT} tv=${tv}`);
     if (nucFreq[0] == 0 || nucFreq[1] == 0 || nucFreq[2] == 0 || nucFreq[3] == 0){
       AG = 1 - 2 * (AG + CT) - tv;
       CT = 1 - 2 * tv;
@@ -227,12 +232,13 @@
       const K1 = 2 * nucF[0] * nucF[2] / fR;
       const K2 = 2 * nucF[1] * nucF[3] / fY;
       const K3 = 2 * (fR * fY - nucF[0] * nucF[2] * fY / fR - nucF[1] * nucF[3] * fR / fY);
+      // console.log(`auxd=${auxd} fR=${fR} fY=${fY} K1=${K1} K2=${K2} K3=${K3}`);
       AG	= 1 - AG / K1 - 0.5 * tv / fR;
       CT	= 1 - CT / K2 - 0.5 * tv / fY;
       tv  = 1 - 0.5 * tv / fY / fR;
       dist = -K1 * Math.log(AG) - K2 * Math.log(CT) - K3 * Math.log(tv);
     }
-
+    // console.log(dist);
     return(dist);
   }
 

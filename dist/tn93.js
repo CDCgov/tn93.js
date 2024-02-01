@@ -1,9 +1,48 @@
 ;(function(){
   "use strict";
 
+
+  function resolvable(c1, c2){
+    if ((c1 < 4 && c2 < 4) || c1 == 17 || c2 == 17)
+      return false;    
+    else 
+      for (let j = 0; j < 4; j++)
+        if (resolutions[c1][j] && resolutions[c2][j]) //if there is a common resolution
+          return true;
+    return false;
+  }
+
+  function ambig_fraction_too_high(s1, s2, maxAmbigFraction){
+    if (maxAmbigFraction >= 1) return false;
+
+    const usingIntegerEncoding = typeof s1[0] === 'number';
+    const scanLength = Math.min(s1.length, s2.length);
+    let totalResolvable = 0;
+    let totalNonGap = 0;
+
+    for (let i = 0; i < scanLength; i++){
+      if (usingIntegerEncoding) {
+        let c1 = s1[i];
+        let c2 = s2[i];
+      } else {
+        let c1 = mapChar[s1.charCodeAt(i)];
+        let c2 = mapChar[s2.charCodeAt(i)];
+      }
+      if (resolvable(c1, c2)) 
+        totalResolvable++;
+      if (c1 != 17 && c2 != 17) 
+        totalNonGap++;
+    }
+    return totalNonGap * maxAmbigFraction <= totalResolvable;
+  }
+
   // Valid matchModes include "RESOLVE", "AVERAGE", "SKIP", "GAPMM"
-  function tn93(s1, s2, matchMode){
+  function tn93(s1, s2, matchMode, maxAmbigFraction=1){
     if(!matchMode) matchMode = "AVERAGE";
+    if (matchMode == "RESOLVE" && ambig_fraction_too_high(s1, s2, maxAmbigFraction)) {
+      matchMode = "AVERAGE";
+    }
+
     const L = Math.min(s1.length, s2.length);
 
     let dist = 0;
@@ -311,7 +350,6 @@ const mapChar = Array(256).fill(16);
     1.0/2.0, // R
     1.0/2.0, // Y
     1.0/2.0, // S
-    1.0/2.0, // S
     1.0/2.0, // W
     1.0/2.0, // K
     1.0/2.0, // M
@@ -337,6 +375,9 @@ const mapChar = Array(256).fill(16);
   // Valid matchModes include "RESOLVE", "AVERAGE", "SKIP", "GAPMM"
   tn93.onInts = function(s1, s2, matchMode){
     if(!matchMode) matchMode = "AVERAGE";
+    if (matchMode == "RESOLVE" && ambig_fraction_too_high(s1, s2, maxAmbigFraction)){
+      matchMode = "AVERAGE";
+    }
     const L = Math.min(s1.length, s2.length);
 
     let dist = 0;

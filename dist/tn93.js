@@ -2,13 +2,13 @@
   "use strict";
 
 
-  function resolvable(c1, c2){
-    if ((c1 < 4 && c2 < 4) || c1 == 17 || c2 == 17)
-      return false;    
-    else 
-      for (let j = 0; j < 4; j++)
-        if (resolutions[c1][j] && resolutions[c2][j]) //if there is a common resolution
-          return true;
+  function is_ambig_position(c1, c2){
+    if (c1 < 4 && c2 < 4) 
+      return false;
+    if (c1 == 17 || c2 == 17)
+      return false;
+    if (c1 > 4 && c2 > 4)
+      return true;
     return false;
   }
 
@@ -28,7 +28,7 @@
         let c1 = mapChar[s1.charCodeAt(i)];
         let c2 = mapChar[s2.charCodeAt(i)];
       }
-      if (resolvable(c1, c2)) 
+      if (is_ambig_position(c1, c2)) 
         totalResolvable++;
       if (c1 != 17 && c2 != 17) 
         totalNonGap++;

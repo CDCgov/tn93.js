@@ -2,15 +2,49 @@
   "use strict";
 
 
-  function is_ambig_position(c1, c2){
-    if (c1 < 4 && c2 < 4) 
-      return false;
-    if (c1 == 17 || c2 == 17)
-      return false;
-    if (c1 > 4 && c2 > 4)
-      return true;
+  function resolvable(c1, c2) {
+    if (c1 < 4 && c2 < 4) return false;
+    if (c1 == 17 || c2 == 17) return false;
+    if (c1 < 4) {
+      if (resolutions[c2][c1]) {
+        return true;
+      }
+      for (let j = 0; j < 4; j++) {
+        if (resolutions[c2][j] && resolutions[c1][j]) {
+          return true;
+        }
+      }
+    } else if (c2 < 4) {
+      if (resolutions[c1][c2]) {
+        return true;
+      }
+      for (let j = 0; j < 4; j++) {
+        if (resolutions[c1][j] && resolutions[c2][j]) {
+          return true;
+        }
+      }
+    } else {
+      let norm = resolutionsCount[c1] * resolutionsCount[c2];
+      if (norm > 0.0) {
+        for (let j = 0; j < 4; j++) {
+          if (resolutions[c1][j] && resolutions[c2][j]) {
+            return true;
+          }
+        }
+        for (let j = 0; j < 4; j++) {
+          if (resolutions[c1][j]) {
+            for (let k = 0; k < 4; k++) {
+              if (resolutions[c2][k]) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
     return false;
   }
+
 
   function ambig_fraction_too_high(s1, s2, maxAmbigFraction){
     if (maxAmbigFraction >= 1) return false;
@@ -28,7 +62,7 @@
         let c1 = mapChar[s1.charCodeAt(i)];
         let c2 = mapChar[s2.charCodeAt(i)];
       }
-      if (is_ambig_position(c1, c2)) 
+      if (resolvable(c1, c2)) 
         totalResolvable++;
       if (c1 != 17 && c2 != 17) 
         totalNonGap++;

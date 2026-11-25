@@ -19,6 +19,15 @@ QUnit.test( "Resolve", assert => {
 	assert.ok(a - 0.045156 < .0000001 && a - 0.045156 > -.0000001, "Function is Correct.");
 });
 
+QUnit.test( "Resolve with maxAmbigFraction", assert => {
+	assert.expect(3);
+	// Five resolvable ambiguity codes (N matches any base): 5 of 1320 sites, about 0.0038.
+	var r1 = "NNNNN" + s1.slice(5);
+	assert.equal(tn93(s1, s2, "RESOLVE", 0.5), tn93(s1, s2, "RESOLVE"), "No ambiguities: RESOLVE is kept.");
+	assert.equal(tn93(r1, s2, "RESOLVE", 0.5), tn93(r1, s2, "RESOLVE"), "Ambiguity fraction under the limit: RESOLVE is kept.");
+	assert.equal(tn93(r1, s2, "RESOLVE", 0.001), tn93(r1, s2, "AVERAGE"), "Ambiguity fraction over the limit: falls back to AVERAGE.");
+});
+
 QUnit.test( "Average", assert => {
 	assert.expect(3);
 	var a = tn93(s1, s2, "AVERAGE");

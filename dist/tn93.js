@@ -55,12 +55,13 @@
     let totalNonGap = 0;
 
     for (let i = 0; i < scanLength; i++){
+      let c1, c2;
       if (usingIntegerEncoding) {
-        let c1 = s1[i];
-        let c2 = s2[i];
+        c1 = s1[i];
+        c2 = s2[i];
       } else {
-        let c1 = mapChar[s1.charCodeAt(i)];
-        let c2 = mapChar[s2.charCodeAt(i)];
+        c1 = mapChar[s1.charCodeAt(i)];
+        c2 = mapChar[s2.charCodeAt(i)];
       }
       if (resolvable(c1, c2)) 
         totalResolvable++;
